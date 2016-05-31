@@ -20,7 +20,7 @@ public class MainFrame extends javax.swing.JFrame {
         chemicalsService = context.getBean("chemicalsServiceImpl", ChemicalsService.class);
         initComponents();
         defaultTableModel = (DefaultTableModel) jTable1.getModel();
-        fillTable(chemicalsService.getChemicalsRangeId(0, 50));
+        fillTable(chemicalsService.getChemicalsRangeId(1, 50));
 
     }
 
@@ -94,7 +94,7 @@ public class MainFrame extends javax.swing.JFrame {
         cbWith.setSelectedIndex(1);
 
         jButton3.setText("Wyjście");
-        jButton3.addActionListener(evt -> jButton3ActionPerformed(evt));
+        jButton3.addActionListener(this::jButton3ActionPerformed);
 
         jLabel5.setText("Name:");
 
@@ -228,7 +228,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField tfName;
     // End of variables declaration
 
-    private Object[] columnNames = {
+    private String[] columnNames = {
             "id", "Name", "EC / List Number", "Cas Number", "Registration Type", "Submission Type", "Total tonnage Band"
     };
 
