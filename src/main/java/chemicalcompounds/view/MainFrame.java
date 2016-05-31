@@ -21,20 +21,13 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
         defaultTableModel = (DefaultTableModel) jTable1.getModel();
         fillTable(chemicalsService.getChemicalsRangeId(1, 50));
+        lL.setText(String.valueOf(labelLeft));
+        labelRight = (chemicalsService.count() / Integer.valueOf(cbWith.getSelectedIndex()));
+        lR.setText(String.valueOf(labelRight));
 
     }
 
-    private void fillTable(List<Chemicals> listOfChemicals) {
-        DefaultTableModel tmpTableModel = defaultTableModel;
-        jTable1.setModel(tmpTableModel);
 
-        for (Chemicals chemicals :
-                listOfChemicals) {
-            tmpTableModel.addRow(new Object[]{chemicals.getId(), chemicals.getName(), chemicals.getEc(), chemicals.getCasNumber(), chemicals.getRegistrationType(), chemicals.getSubmissionType(), chemicals.getTotalTonnageBand()});
-        }
-
-
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -139,11 +132,11 @@ public class MainFrame extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addComponent(bPrev)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(lR)
+                                                .addComponent(lL)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jLabel2)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(lL)
+                                                .addComponent(lR)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(bNext)
                                                 .addGap(256, 256, 256)
@@ -228,6 +221,21 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField tfName;
     // End of variables declaration
 
+    private void fillTable(List<Chemicals> listOfChemicals) {
+        DefaultTableModel tmpTableModel = defaultTableModel;
+        jTable1.setModel(tmpTableModel);
+
+        for (Chemicals chemicals :
+                listOfChemicals) {
+            tmpTableModel.addRow(new Object[]{chemicals.getId(), chemicals.getName(), chemicals.getEc(), chemicals.getCasNumber(), chemicals.getRegistrationType(), chemicals.getSubmissionType(), chemicals.getTotalTonnageBand()});
+        }
+
+    }
+
+    private void setLabelsLeftAndRight(int left, int righr) {
+
+    }
+
     private String[] columnNames = {
             "id", "Name", "EC / List Number", "Cas Number", "Registration Type", "Submission Type", "Total tonnage Band"
     };
@@ -235,5 +243,7 @@ public class MainFrame extends javax.swing.JFrame {
     private ApplicationContext context;
     private ChemicalsService chemicalsService;
     private DefaultTableModel defaultTableModel;
+    private int labelLeft = 1;
+    private int labelRight = 1;
 
 }
