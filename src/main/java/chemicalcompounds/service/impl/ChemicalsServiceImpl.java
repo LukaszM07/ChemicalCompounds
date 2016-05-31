@@ -40,4 +40,5 @@ public class ChemicalsServiceImpl implements ChemicalsService{
     public List<String> getTotalTonnageBand() {
         return chemicalsRepository.getTotalTonnageBand();
     }
+
 }

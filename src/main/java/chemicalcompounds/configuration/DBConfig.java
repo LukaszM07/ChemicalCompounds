@@ -17,11 +17,10 @@ public class DBConfig {
     public DataSource dataSource(){
         Jdbc3PoolingDataSource dataSource = new Jdbc3PoolingDataSource();
         dataSource.setServerName("localhost");
-        dataSource.setDatabaseName("proj");
+        dataSource.setDatabaseName("postgres");
         dataSource.setUser("postgres");
         dataSource.setPassword("admin");
         dataSource.setMaxConnections(1);
-        dataSource.setPortNumber(5432);
 
         return dataSource;
     }

@@ -18,4 +18,5 @@ public interface ChemicalsService {
     List<String> getSubmissionType();
 
     List<String> getTotalTonnageBand();
+
 }
