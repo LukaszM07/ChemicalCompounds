@@ -21,10 +21,6 @@ public class ChemicalsServiceImpl implements ChemicalsService{
         return chemicalsRepository.count();
     }
 
-    public int minId() {
-        return chemicalsRepository.minId();
-    }
-
     public List<Chemicals> getChemicalByName(String name) {
         return chemicalsRepository.getChemicalByName(name);
     }

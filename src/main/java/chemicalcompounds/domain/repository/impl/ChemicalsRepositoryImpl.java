@@ -19,16 +19,11 @@ public class ChemicalsRepositoryImpl implements ChemicalsRepository{
     private JdbcTemplate jdbcTemplate;
 
     public List<Chemicals> getChemicalsRangeId(int startId, int numberOfRecords) throws EmptyResultDataAccessException {
-        startId += minId();
         return jdbcTemplate.query("SELECT * FROM Chemicals WHERE id >= ? AND id < ?", new ChemicalsRowMapper(), startId, (startId + numberOfRecords));
     }
 
     public int count() throws EmptyResultDataAccessException {
         return jdbcTemplate.queryForObject("SELECT count(*) FROM Chemicals", Integer.class);
-    }
-
-    public int minId() {
-        return jdbcTemplate.queryForObject("SELECT min(id) FROM Chemicals", Integer.class);
     }
 
     public List<Chemicals> getChemicalByName(String name) throws EmptyResultDataAccessException{
@@ -59,7 +54,7 @@ public class ChemicalsRepositoryImpl implements ChemicalsRepository{
             chemicals.setSubmissionType(rs.getString("submission_type"));
             chemicals.setTotalTonnageBand(rs.getString("total_tonnage_band"));
             chemicals.setFactsheetURL(rs.getString("factsheet_url"));
-            chemicals.setSubstanceInformationPage(rs.getString("substance_information_page`"));
+            chemicals.setSubstanceInformationPage(rs.getString("substanceinformation_page"));
 
             return chemicals;
         }

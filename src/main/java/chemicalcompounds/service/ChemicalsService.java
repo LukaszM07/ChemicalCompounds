@@ -9,8 +9,6 @@ public interface ChemicalsService {
 
     int count();
 
-    int minId();
-
     List<Chemicals> getChemicalByName(String name);
 
     List<String> getRegistrationType();

@@ -1,12 +1,39 @@
 package chemicalcompounds.view;
 
+import chemicalcompounds.configuration.AppConfig;
+import chemicalcompounds.domain.Chemicals;
+import chemicalcompounds.service.ChemicalsService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import javax.swing.table.DefaultTableModel;
+import java.util.List;
+
 public class MainFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
+
+        context = new AnnotationConfigApplicationContext(AppConfig.class);
+        chemicalsService = context.getBean("chemicalsServiceImpl", ChemicalsService.class);
         initComponents();
+        defaultTableModel = (DefaultTableModel) jTable1.getModel();
+        fillTable(chemicalsService.getChemicalsRangeId(0, 50));
+
+    }
+
+    private void fillTable(List<Chemicals> listOfChemicals) {
+        DefaultTableModel tmpTableModel = defaultTableModel;
+        jTable1.setModel(tmpTableModel);
+
+        for (Chemicals chemicals :
+                listOfChemicals) {
+            tmpTableModel.addRow(new Object[]{chemicals.getId(), chemicals.getName(), chemicals.getEc(), chemicals.getCasNumber(), chemicals.getRegistrationType(), chemicals.getSubmissionType(), chemicals.getTotalTonnageBand()});
+        }
+
+
     }
 
     /**
@@ -47,9 +74,7 @@ public class MainFrame extends javax.swing.JFrame {
                 new Object [][] {
 
                 },
-                new String [] {
-                        "id", "Name", "EC / List Number", "Cas Number", "Registration Type", "Submission Type", "Total tonnage Band"
-                }
+                columnNames
         ));
         jScrollPane1.setViewportView(jTable1);
 
@@ -69,11 +94,7 @@ public class MainFrame extends javax.swing.JFrame {
         cbWith.setSelectedIndex(1);
 
         jButton3.setText("Wyjście");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
+        jButton3.addActionListener(evt -> jButton3ActionPerformed(evt));
 
         jLabel5.setText("Name:");
 
@@ -206,4 +227,13 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField tfEC;
     private javax.swing.JTextField tfName;
     // End of variables declaration
+
+    private Object[] columnNames = {
+            "id", "Name", "EC / List Number", "Cas Number", "Registration Type", "Submission Type", "Total tonnage Band"
+    };
+
+    private ApplicationContext context;
+    private ChemicalsService chemicalsService;
+    private DefaultTableModel defaultTableModel;
+
 }
