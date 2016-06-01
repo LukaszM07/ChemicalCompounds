@@ -19,7 +19,6 @@ public class MainFrame extends javax.swing.JFrame {
         context = new AnnotationConfigApplicationContext(AppConfig.class);
         chemicalsService = context.getBean("chemicalsServiceImpl", ChemicalsService.class);
         initComponents();
-        defaultTableModel = (DefaultTableModel) jTable1.getModel();
         fillTable(chemicalsService.getChemicalsRangeId(1, 50));
         setLabelsLeftAndRight();
 
@@ -61,12 +60,10 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object [][] {
+        jTable1.setModel(new DefaultTableModel(new Object[][]{
 
-                },
-                columnNames
-        ));
+        },
+                columnNames));
         jScrollPane1.setViewportView(jTable1);
 
         lR.setText("0");
@@ -76,8 +73,10 @@ public class MainFrame extends javax.swing.JFrame {
         lL.setText("0");
 
         bPrev.setText("<");
+        bPrev.addActionListener(this::bPrevActionPerformed);
 
         bNext.setText(">");
+        bNext.addActionListener(this::bNextActionPerformed);
 
         jLabel4.setText("Ilość rekordów na stronie: ");
 
@@ -195,11 +194,18 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void bNextActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        if (nextPageWithRecords()) {
+            fillTable(chemicalsService.getChemicalsRangeId(maxId + 1, Integer.valueOf(cbWith.getSelectedItem().toString())));
+            maxId *= 2;
+        }
+
     }
 
     private void bPrevActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        if (previousPageWithRecords()) {
+            maxId /= 2;
+            fillTable(chemicalsService.getChemicalsRangeId(maxId + 1, Integer.valueOf(cbWith.getSelectedItem().toString())));
+        }
     }
 
     // Variables declaration - do not modify
@@ -228,7 +234,8 @@ public class MainFrame extends javax.swing.JFrame {
     // End of variables declaration
 
     private void fillTable(List<Chemicals> listOfChemicals) {
-        DefaultTableModel tmpTableModel = defaultTableModel;
+        DefaultTableModel tmpTableModel = tmpTableModel();
+
         jTable1.setModel(tmpTableModel);
 
         for (Chemicals chemicals :
@@ -274,9 +281,16 @@ public class MainFrame extends javax.swing.JFrame {
             "id", "Name", "EC / List Number", "Cas Number", "Registration Type", "Submission Type", "Total tonnage Band"
     };
 
+    private DefaultTableModel tmpTableModel() {
+        return new DefaultTableModel(new Object[][]{
+
+        },
+                columnNames);
+    }
+
     private ApplicationContext context;
     private ChemicalsService chemicalsService;
-    private DefaultTableModel defaultTableModel;
     private String labelLeft;
     private String labelRight;
+    private int maxId = 50;
 }
