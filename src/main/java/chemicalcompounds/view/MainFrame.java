@@ -6,6 +6,7 @@ import chemicalcompounds.service.ChemicalsService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
@@ -21,7 +22,9 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
         fillTable(chemicalsService.getChemicalsRangeId(1, 50));
         setLabelsLeftAndRight();
-
+        fillCBRegType();
+        fillCBSubType();
+        fillCBTotalTonnageBand();
     }
 
 
@@ -189,25 +192,6 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
-        System.exit(0);
-    }
-
-    private void bNextActionPerformed(java.awt.event.ActionEvent evt) {
-        if (nextPageWithRecords()) {
-            fillTable(chemicalsService.getChemicalsRangeId(maxId + 1, Integer.valueOf(cbWith.getSelectedItem().toString())));
-            maxId *= 2;
-        }
-
-    }
-
-    private void bPrevActionPerformed(java.awt.event.ActionEvent evt) {
-        if (previousPageWithRecords()) {
-            maxId /= 2;
-            fillTable(chemicalsService.getChemicalsRangeId(maxId + 1, Integer.valueOf(cbWith.getSelectedItem().toString())));
-        }
-    }
-
     // Variables declaration - do not modify
     private javax.swing.JButton bNext;
     private javax.swing.JButton bPrev;
@@ -233,6 +217,27 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField tfName;
     // End of variables declaration
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+        System.exit(0);
+    }
+
+    private void bNextActionPerformed(java.awt.event.ActionEvent evt) {
+        if (nextPageWithRecords()) {
+            fillTable(chemicalsService.getChemicalsRangeId(maxId + 1, Integer.valueOf(cbWith.getSelectedItem().toString())));
+            maxId += Integer.valueOf(cbWith.getSelectedItem().toString());
+        }
+
+    }
+
+    private void bPrevActionPerformed(java.awt.event.ActionEvent evt) {
+        if (previousPageWithRecords()) {
+            int cbW = Integer.valueOf(cbWith.getSelectedItem().toString());
+            maxId -= (2 * cbW);
+            fillTable(chemicalsService.getChemicalsRangeId(maxId + 1, cbW));
+            maxId += cbW;
+        }
+    }
+
     private void fillTable(List<Chemicals> listOfChemicals) {
         DefaultTableModel tmpTableModel = tmpTableModel();
 
@@ -243,6 +248,19 @@ public class MainFrame extends javax.swing.JFrame {
             tmpTableModel.addRow(new Object[]{chemicals.getId(), chemicals.getName(), chemicals.getEc(), chemicals.getCasNumber(), chemicals.getRegistrationType(), chemicals.getSubmissionType(), chemicals.getTotalTonnageBand()});
         }
 
+    }
+
+    private void fillCBRegType() {
+        cbRegType.setModel(new DefaultComboBoxModel<>(chemicalsService.getRegistrationType().toArray()));
+    }
+
+
+    private void fillCBTotalTonnageBand() {
+        cbTotalTonnageBand.setModel(new DefaultComboBoxModel<>(chemicalsService.getTotalTonnageBand().toArray()));
+    }
+
+    private void fillCBSubType() {
+        cbSubType.setModel(new DefaultComboBoxModel<>(chemicalsService.getSubmissionType().toArray()));
     }
 
     private void setLabelsLeftAndRight() {
