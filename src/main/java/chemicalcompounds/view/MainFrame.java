@@ -21,9 +21,7 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
         defaultTableModel = (DefaultTableModel) jTable1.getModel();
         fillTable(chemicalsService.getChemicalsRangeId(1, 50));
-        lL.setText(String.valueOf(labelLeft));
-        labelRight = (chemicalsService.count() / Integer.valueOf(cbWith.getSelectedIndex()));
-        lR.setText(String.valueOf(labelRight));
+        setLabelsLeftAndRight();
 
     }
 
@@ -196,6 +194,14 @@ public class MainFrame extends javax.swing.JFrame {
         System.exit(0);
     }
 
+    private void bNextActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void bPrevActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
     // Variables declaration - do not modify
     private javax.swing.JButton bNext;
     private javax.swing.JButton bPrev;
@@ -232,8 +238,36 @@ public class MainFrame extends javax.swing.JFrame {
 
     }
 
-    private void setLabelsLeftAndRight(int left, int righr) {
+    private void setLabelsLeftAndRight() {
+        labelLeft = "1";
+        lL.setText(labelLeft);
+        labelRight = String.valueOf((int) (chemicalsService.count() / Double.valueOf(cbWith.getSelectedItem().toString()) + 0.999));
+        lR.setText(labelRight);
+    }
 
+    private boolean nextPageWithRecords() {
+        int left = Integer.valueOf(labelLeft);
+        int right = Integer.valueOf(labelRight);
+
+        if (left < right) {
+            labelLeft = String.valueOf(++left);
+            lL.setText(labelLeft);
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean previousPageWithRecords() {
+        int left = Integer.valueOf(labelLeft);
+
+        if (left > 1) {
+            labelLeft = String.valueOf(--left);
+            lL.setText(labelLeft);
+            return true;
+        }
+
+        return false;
     }
 
     private String[] columnNames = {
@@ -243,7 +277,6 @@ public class MainFrame extends javax.swing.JFrame {
     private ApplicationContext context;
     private ChemicalsService chemicalsService;
     private DefaultTableModel defaultTableModel;
-    private int labelLeft = 1;
-    private int labelRight = 1;
-
+    private String labelLeft;
+    private String labelRight;
 }
