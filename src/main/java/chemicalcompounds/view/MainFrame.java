@@ -5,9 +5,12 @@ import chemicalcompounds.domain.Chemicals;
 import chemicalcompounds.service.ChemicalsService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyEvent;
+import java.text.ParseException;
 import java.util.List;
 
 public class MainFrame extends javax.swing.JFrame {
@@ -55,7 +58,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         tfName = new javax.swing.JTextField();
-        tfEC = new javax.swing.JTextField();
+        tfEC = new javax.swing.JFormattedTextField();
         tfCasNum = new javax.swing.JTextField();
         cbRegType = new javax.swing.JComboBox();
         cbTotalTonnageBand = new javax.swing.JComboBox();
@@ -85,6 +88,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         cbWith.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "25", "50", "75", "100", "150", "200" }));
         cbWith.setSelectedIndex(1);
+        cbWith.addItemListener(this::cbWithItemStateChanged);
 
         jButton3.setText("Wyjście");
         jButton3.addActionListener(this::jButton3ActionPerformed);
@@ -100,6 +104,27 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel9.setText("Submission Type:");
 
         jLabel10.setText("Total tonnage Band:");
+
+        tfName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tfNameKeyPressed(evt);
+            }
+        });
+
+
+        javax.swing.text.MaskFormatter mask = null;
+        try {
+            mask = new javax.swing.text.MaskFormatter("###-###-#");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        mask.setPlaceholderCharacter('_');
+        tfEC.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(mask));
+        tfEC.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tfECKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -213,10 +238,11 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lL;
     private javax.swing.JLabel lR;
     private javax.swing.JTextField tfCasNum;
-    private javax.swing.JTextField tfEC;
+    private javax.swing.JFormattedTextField tfEC;
     private javax.swing.JTextField tfName;
     // End of variables declaration
 
+    // Action perform methods
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
         System.exit(0);
     }
@@ -238,22 +264,36 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
-    private void fillTable(List<Chemicals> listOfChemicals) {
-        DefaultTableModel tmpTableModel = tmpTableModel();
-
-        jTable1.setModel(tmpTableModel);
-
-        for (Chemicals chemicals :
-                listOfChemicals) {
-            tmpTableModel.addRow(new Object[]{chemicals.getId(), chemicals.getName(), chemicals.getEc(), chemicals.getCasNumber(), chemicals.getRegistrationType(), chemicals.getSubmissionType(), chemicals.getTotalTonnageBand()});
-        }
-
+    private void cbWithItemStateChanged(java.awt.event.ItemEvent evt) {
+        fillTable(chemicalsService.getChemicalsRangeId(1, Integer.valueOf(cbWith.getSelectedItem().toString())));
+        setLabelsLeftAndRight();
     }
 
+    private void tfNameKeyPressed(java.awt.event.KeyEvent evt) {
+        try {
+            if (tfName.getText().length() > 2)
+                fillTable(chemicalsService.getChemicalByName("%" + tfName.getText() + "%"));
+            else {
+                fillTable(chemicalsService.getChemicalsRangeId(1, 50));
+                setLabelsLeftAndRight();
+            }
+        } catch (EmptyResultDataAccessException e) {
+            JOptionPane.showMessageDialog(null, "Niestety nie znaleziono substancji o podanej nazwie");
+        }
+    }
+
+    private void tfECKeyPressed(KeyEvent evt) {
+        if (!tfEC.getText().contains("_")) {
+        }
+    }
+
+    // End of action perform method
+
+
+    // My methods declaration
     private void fillCBRegType() {
         cbRegType.setModel(new DefaultComboBoxModel<>(chemicalsService.getRegistrationType().toArray()));
     }
-
 
     private void fillCBTotalTonnageBand() {
         cbTotalTonnageBand.setModel(new DefaultComboBoxModel<>(chemicalsService.getTotalTonnageBand().toArray()));
@@ -295,10 +335,6 @@ public class MainFrame extends javax.swing.JFrame {
         return false;
     }
 
-    private String[] columnNames = {
-            "id", "Name", "EC / List Number", "Cas Number", "Registration Type", "Submission Type", "Total tonnage Band"
-    };
-
     private DefaultTableModel tmpTableModel() {
         return new DefaultTableModel(new Object[][]{
 
@@ -306,9 +342,29 @@ public class MainFrame extends javax.swing.JFrame {
                 columnNames);
     }
 
+    private void fillTable(List<Chemicals> listOfChemicals) {
+        DefaultTableModel tmpTableModel = tmpTableModel();
+
+        jTable1.setModel(tmpTableModel);
+
+        for (Chemicals chemicals :
+                listOfChemicals) {
+            tmpTableModel.addRow(new Object[]{chemicals.getId(), chemicals.getName(), chemicals.getEc(), chemicals.getCasNumber(), chemicals.getRegistrationType(), chemicals.getSubmissionType(), chemicals.getTotalTonnageBand()});
+        }
+
+    }
+
+    // End of my methods declaration
+
+    // My variables declaration
+    private String[] columnNames = {
+            "id", "Name", "EC / List Number", "Cas Number", "Registration Type", "Submission Type", "Total tonnage Band"
+    };
     private ApplicationContext context;
     private ChemicalsService chemicalsService;
     private String labelLeft;
     private String labelRight;
     private int maxId = 50;
+
+    // End of variables declaration
 }

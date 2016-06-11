@@ -10,7 +10,5 @@ public class Main {
 
         EventQueue.invokeLater(() -> new MainFrame().setVisible(true));
 
-//        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-//        ChemicalsService chemicalsService = context.getBean("chemicalsServiceImpl", ChemicalsService.class);
     }
 }
