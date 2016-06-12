@@ -42,12 +42,17 @@ public class ChemicalsRepositoryImpl implements ChemicalsRepository{
         return jdbcTemplate.query("SELECT * FROM Chemicals WHERE Chemicals.total_tonnage_band LIKE ?", new ChemicalsRowMapper(), totalTonnageBand);
     }
 
+    @Override
+    public List<Chemicals> getChemicalsByCasNumber(String casNumber) {
+        return jdbcTemplate.query("SELECT * FROM Chemicals WHERE Chemicals.cas_number LIKE ?", new ChemicalsRowMapper(), casNumber);
+    }
+
     public int count() throws EmptyResultDataAccessException {
         return jdbcTemplate.queryForObject("SELECT count(*) FROM Chemicals", Integer.class);
     }
 
     public List<Chemicals> getChemicalByName(String name) throws EmptyResultDataAccessException{
-        return jdbcTemplate.query("SELECT * FROM Chemicals WHERE name LIKE ?", new ChemicalsRowMapper(), name);
+        return jdbcTemplate.query("SELECT * FROM Chemicals WHERE name LIKE ?", new ChemicalsRowMapper(), "%" + name + "%");
     }
 
     public List<String> getRegistrationType() {

@@ -7,6 +7,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ItemEvent;
+import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.util.List;
 
@@ -123,6 +125,17 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        tfCasNum.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfCasNumKeyTyped(evt);
+            }
+        });
+
+        cbRegType.addItemListener(this::cbRegTypeItemStateChanged);
+
+        cbSubType.addItemListener(this::cbSubTypeItemStateChanged);
+
+        cbTotalTonnageBand.addItemListener(this::cbTotalTonnageBandItemStateChanged);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -269,7 +282,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void tfNameKeyPressed(java.awt.event.KeyEvent evt) {
         if (tfName.getText().length() > 2) {
-            fillTable(chemicalsService.getChemicalByName("%" + tfName.getText() + "%"));
+            fillTable(chemicalsService.getChemicalByName(tfName.getText()));
         } else {
             fill();
         }
@@ -281,6 +294,33 @@ public class MainFrame extends javax.swing.JFrame {
         } else {
             fill();
         }
+    }
+
+    private void tfCasNumKeyTyped(KeyEvent evt) {
+        if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
+            fillTable(chemicalsService.getChemicalsByCasNumber(tfCasNum.getText()));
+        } else {
+            if (evt.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+                fill();
+            } else {
+                if (!(Character.isDigit(evt.getKeyChar()) || evt.getKeyChar() == KeyEvent.VK_DELETE || evt.getKeyChar() == KeyEvent.VK_MINUS)) {
+                    getToolkit().beep();
+                    evt.consume();
+                }
+            }
+        }
+    }
+
+    private void cbTotalTonnageBandItemStateChanged(ItemEvent itemEvent) {
+        fillTable(chemicalsService.getChemicalsByTotalTonnageBand(cbTotalTonnageBand.getSelectedItem().toString()));
+    }
+
+    private void cbSubTypeItemStateChanged(ItemEvent itemEvent) {
+        fillTable(chemicalsService.getChemicalsBySubmissionType(cbSubType.getSelectedItem().toString()));
+    }
+
+    private void cbRegTypeItemStateChanged(ItemEvent itemEvent) {
+        fillTable(chemicalsService.getChemicalsByRegistrationType(cbRegType.getSelectedItem().toString()));
     }
 
     // End of action perform method

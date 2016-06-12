@@ -57,4 +57,9 @@ public class ChemicalsServiceImpl implements ChemicalsService{
         return chemicalsRepository.getChemicalsByTotalTonnageBand(totalTonnageBand);
     }
 
+    @Override
+    public List<Chemicals> getChemicalsByCasNumber(String casNumber) {
+        return chemicalsRepository.getChemicalsByCasNumber(casNumber);
+    }
+
 }

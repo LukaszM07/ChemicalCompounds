@@ -25,4 +25,6 @@ public interface ChemicalsService {
 
     List<Chemicals> getChemicalsByTotalTonnageBand(String totalTonnageBand);
 
+    List<Chemicals> getChemicalsByCasNumber(String casNumber);
+
 }
