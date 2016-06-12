@@ -37,4 +37,24 @@ public class ChemicalsServiceImpl implements ChemicalsService{
         return chemicalsRepository.getTotalTonnageBand();
     }
 
+    @Override
+    public List<Chemicals> getChemicalsByEC(String ecNumber) {
+        return chemicalsRepository.getChemicalsByEC(ecNumber);
+    }
+
+    @Override
+    public List<Chemicals> getChemicalsByRegistrationType(String registrationType) {
+        return chemicalsRepository.getChemicalsByRegistrationType(registrationType);
+    }
+
+    @Override
+    public List<Chemicals> getChemicalsBySubmissionType(String submissionType) {
+        return chemicalsRepository.getChemicalsBySubmissionType(submissionType);
+    }
+
+    @Override
+    public List<Chemicals> getChemicalsByTotalTonnageBand(String totalTonnageBand) {
+        return chemicalsRepository.getChemicalsByTotalTonnageBand(totalTonnageBand);
+    }
+
 }

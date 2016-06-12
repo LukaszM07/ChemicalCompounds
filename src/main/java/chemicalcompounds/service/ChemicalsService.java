@@ -17,4 +17,12 @@ public interface ChemicalsService {
 
     List<String> getTotalTonnageBand();
 
+    List<Chemicals> getChemicalsByEC(String ecNumber);
+
+    List<Chemicals> getChemicalsByRegistrationType(String registrationType);
+
+    List<Chemicals> getChemicalsBySubmissionType(String submissionType);
+
+    List<Chemicals> getChemicalsByTotalTonnageBand(String totalTonnageBand);
+
 }

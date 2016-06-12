@@ -22,24 +22,44 @@ public class ChemicalsRepositoryImpl implements ChemicalsRepository{
         return jdbcTemplate.query("SELECT * FROM Chemicals WHERE id >= ? AND id < ?", new ChemicalsRowMapper(), startId, (startId + numberOfRecords));
     }
 
+    @Override
+    public List<Chemicals> getChemicalsByEC(String ecNumber) {
+        return jdbcTemplate.query("SELECT * FROM Chemicals WHERE Chemicals.ec LIKE ?", new ChemicalsRowMapper(), ecNumber);
+    }
+
+    @Override
+    public List<Chemicals> getChemicalsByRegistrationType(String registrationType) {
+        return jdbcTemplate.query("SELECT * FROM Chemicals WHERE Chemicals.registration_type LIKE ?", new ChemicalsRowMapper(), registrationType);
+    }
+
+    @Override
+    public List<Chemicals> getChemicalsBySubmissionType(String submissionType) {
+        return jdbcTemplate.query("SELECT * FROM Chemicals WHERE Chemicals.submission_type LIKE ?", new ChemicalsRowMapper(), submissionType);
+    }
+
+    @Override
+    public List<Chemicals> getChemicalsByTotalTonnageBand(String totalTonnageBand) {
+        return jdbcTemplate.query("SELECT * FROM Chemicals WHERE Chemicals.total_tonnage_band LIKE ?", new ChemicalsRowMapper(), totalTonnageBand);
+    }
+
     public int count() throws EmptyResultDataAccessException {
         return jdbcTemplate.queryForObject("SELECT count(*) FROM Chemicals", Integer.class);
     }
 
     public List<Chemicals> getChemicalByName(String name) throws EmptyResultDataAccessException{
-        return jdbcTemplate.query("SELECT * FROM Chemicals WHERE name like ?", new ChemicalsRowMapper(), name);
+        return jdbcTemplate.query("SELECT * FROM Chemicals WHERE name LIKE ?", new ChemicalsRowMapper(), name);
     }
 
     public List<String> getRegistrationType() {
-        return jdbcTemplate.queryForList("select Chemicals.registration_type from Chemicals group by Chemicals.registration_type", String.class);
+        return jdbcTemplate.queryForList("SELECT Chemicals.registration_type FROM Chemicals GROUP BY Chemicals.registration_type", String.class);
     }
 
     public List<String> getSubmissionType() {
-        return jdbcTemplate.queryForList("select Chemicals.submission_type from Chemicals group by Chemicals.submission_type", String.class);
+        return jdbcTemplate.queryForList("SELECT Chemicals.submission_type FROM Chemicals GROUP BY Chemicals.submission_type", String.class);
     }
 
     public List<String> getTotalTonnageBand() {
-        return jdbcTemplate.queryForList("select Chemicals.total_tonnage_band from Chemicals group by Chemicals.total_tonnage_band", String.class);
+        return jdbcTemplate.queryForList("SELECT Chemicals.total_tonnage_band FROM Chemicals GROUP BY Chemicals.total_tonnage_band", String.class);
     }
 
     private static class ChemicalsRowMapper implements RowMapper<Chemicals> {

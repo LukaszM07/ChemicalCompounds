@@ -5,11 +5,8 @@ import chemicalcompounds.domain.Chemicals;
 import chemicalcompounds.service.ChemicalsService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.dao.EmptyResultDataAccessException;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.util.List;
 
@@ -23,8 +20,7 @@ public class MainFrame extends javax.swing.JFrame {
         context = new AnnotationConfigApplicationContext(AppConfig.class);
         chemicalsService = context.getBean("chemicalsServiceImpl", ChemicalsService.class);
         initComponents();
-        fillTable(chemicalsService.getChemicalsRangeId(1, 50));
-        setLabelsLeftAndRight();
+        fill();
         fillCBRegType();
         fillCBSubType();
         fillCBTotalTonnageBand();
@@ -50,7 +46,7 @@ public class MainFrame extends javax.swing.JFrame {
         bNext = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         cbWith = new javax.swing.JComboBox();
-        jButton3 = new javax.swing.JButton();
+        bExit = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -90,8 +86,8 @@ public class MainFrame extends javax.swing.JFrame {
         cbWith.setSelectedIndex(1);
         cbWith.addItemListener(this::cbWithItemStateChanged);
 
-        jButton3.setText("Wyjście");
-        jButton3.addActionListener(this::jButton3ActionPerformed);
+        bExit.setText("Wyjście");
+        bExit.addActionListener(this::bExitActionPerformed);
 
         jLabel5.setText("Name:");
 
@@ -115,16 +111,18 @@ public class MainFrame extends javax.swing.JFrame {
         javax.swing.text.MaskFormatter mask = null;
         try {
             mask = new javax.swing.text.MaskFormatter("###-###-#");
+            mask.setPlaceholderCharacter('_');
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        mask.setPlaceholderCharacter('_');
+
         tfEC.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(mask));
         tfEC.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 tfECKeyPressed(evt);
             }
         });
+
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -165,7 +163,7 @@ public class MainFrame extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(bNext)
                                                 .addGap(256, 256, 256)
-                                                .addComponent(jButton3)))
+                                                .addComponent(bExit)))
                                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -210,7 +208,7 @@ public class MainFrame extends javax.swing.JFrame {
                                         .addComponent(bNext)
                                         .addComponent(jLabel4)
                                         .addComponent(cbWith, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jButton3))
+                                        .addComponent(bExit))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -224,7 +222,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox cbSubType;
     private javax.swing.JComboBox cbTotalTonnageBand;
     private javax.swing.JComboBox cbWith;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton bExit;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -243,7 +241,7 @@ public class MainFrame extends javax.swing.JFrame {
     // End of variables declaration
 
     // Action perform methods
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void bExitActionPerformed(java.awt.event.ActionEvent evt) {
         System.exit(0);
     }
 
@@ -270,20 +268,18 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void tfNameKeyPressed(java.awt.event.KeyEvent evt) {
-        try {
-            if (tfName.getText().length() > 2)
-                fillTable(chemicalsService.getChemicalByName("%" + tfName.getText() + "%"));
-            else {
-                fillTable(chemicalsService.getChemicalsRangeId(1, 50));
-                setLabelsLeftAndRight();
-            }
-        } catch (EmptyResultDataAccessException e) {
-            JOptionPane.showMessageDialog(null, "Niestety nie znaleziono substancji o podanej nazwie");
+        if (tfName.getText().length() > 2) {
+            fillTable(chemicalsService.getChemicalByName("%" + tfName.getText() + "%"));
+        } else {
+            fill();
         }
     }
 
-    private void tfECKeyPressed(KeyEvent evt) {
+    private void tfECKeyPressed(java.awt.event.KeyEvent evt) {
         if (!tfEC.getText().contains("_")) {
+            fillTable(chemicalsService.getChemicalsByEC(tfEC.getText()));
+        } else {
+            fill();
         }
     }
 
@@ -292,15 +288,15 @@ public class MainFrame extends javax.swing.JFrame {
 
     // My methods declaration
     private void fillCBRegType() {
-        cbRegType.setModel(new DefaultComboBoxModel<>(chemicalsService.getRegistrationType().toArray()));
+        cbRegType.setModel(new javax.swing.DefaultComboBoxModel<>(chemicalsService.getRegistrationType().toArray()));
     }
 
     private void fillCBTotalTonnageBand() {
-        cbTotalTonnageBand.setModel(new DefaultComboBoxModel<>(chemicalsService.getTotalTonnageBand().toArray()));
+        cbTotalTonnageBand.setModel(new javax.swing.DefaultComboBoxModel<>(chemicalsService.getTotalTonnageBand().toArray()));
     }
 
     private void fillCBSubType() {
-        cbSubType.setModel(new DefaultComboBoxModel<>(chemicalsService.getSubmissionType().toArray()));
+        cbSubType.setModel(new javax.swing.DefaultComboBoxModel<>(chemicalsService.getSubmissionType().toArray()));
     }
 
     private void setLabelsLeftAndRight() {
@@ -352,6 +348,11 @@ public class MainFrame extends javax.swing.JFrame {
             tmpTableModel.addRow(new Object[]{chemicals.getId(), chemicals.getName(), chemicals.getEc(), chemicals.getCasNumber(), chemicals.getRegistrationType(), chemicals.getSubmissionType(), chemicals.getTotalTonnageBand()});
         }
 
+    }
+
+    private void fill() {
+        fillTable(chemicalsService.getChemicalsRangeId(1, 50));
+        setLabelsLeftAndRight();
     }
 
     // End of my methods declaration
