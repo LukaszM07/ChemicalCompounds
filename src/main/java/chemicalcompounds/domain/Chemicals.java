@@ -14,14 +14,13 @@ public class Chemicals {
     public Chemicals() {
     }
 
-    public Chemicals(String name, String ec, String casNumber, String registrationType, String submissionType, String totalTonnageBand, String factsheetURL, String substanceInformationPage) {
+    public Chemicals(String name, String ec, String casNumber, String registrationType, String submissionType, String totalTonnageBand, String substanceInformationPage) {
         this.name = name;
         this.ec = ec;
         this.casNumber = casNumber;
         this.registrationType = registrationType;
         this.submissionType = submissionType;
         this.totalTonnageBand = totalTonnageBand;
-        this.factsheetURL = factsheetURL;
         this.substanceInformationPage = substanceInformationPage;
     }
 

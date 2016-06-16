@@ -6,6 +6,7 @@ import chemicalcompounds.service.ChemicalsService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -107,17 +108,17 @@ public class MainFrame extends javax.swing.JFrame {
         bExit.setText("Wyjście");
         bExit.addActionListener(this::bExitActionPerformed);
 
-        jLabel5.setText("Name:");
+        jLabel5.setText("Nazwa:");
 
-        jLabel6.setText("EC / List Number:");
+        jLabel6.setText("Numer EC:");
 
-        jLabel7.setText("Cas Number:");
+        jLabel7.setText("Numer CAS:");
 
-        jLabel8.setText("Registration Type:");
+        jLabel8.setText("Rodzaj rejestracji:");
 
-        jLabel9.setText("Submission Type:");
+        jLabel9.setText("Typ złożenia:");
 
-        jLabel10.setText("Total tonnage Band:");
+        jLabel10.setText("Zakrez obrotu:");
 
         tfName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -181,9 +182,11 @@ public class MainFrame extends javax.swing.JFrame {
         mEdit.setText("Edycja");
 
         miEdit.setText("Edytuj");
+        miEdit.addActionListener(this::miEditActionPerformed);
         mEdit.add(miEdit);
 
         miDelete.setText("Usuń");
+        miDelete.addActionListener(this::miDeleteActionPerformed);
         mEdit.add(miDelete);
 
         miAdd.setText("Dodaj");
@@ -477,6 +480,16 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void miAddActionPerformed(ActionEvent actionEvent) {
         EventQueue.invokeLater(() -> new AddingFrame(chemicalsService).setVisible(true));
+    }
+
+    private void miEditActionPerformed(ActionEvent actionEvent) {
+        EventQueue.invokeLater(() -> new EditingFrame(chemicalsService, chemicalsService.getChemicalsById(Integer.valueOf(jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0).toString()))).setVisible(true));
+    }
+
+    private void miDeleteActionPerformed(ActionEvent actionEvent) {
+        chemicalsService.deleteChemicals(Integer.valueOf(jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0).toString()));
+        JOptionPane.showMessageDialog(null, "Pomyślnie usunięto rekord");
+        fill();
     }
 
     // End of action perform method

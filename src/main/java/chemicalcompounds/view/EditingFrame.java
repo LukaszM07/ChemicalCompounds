@@ -16,13 +16,14 @@ import java.text.ParseException;
 /**
  * @author lukasz
  */
-public class EditingFrame extends javax.swing.JFrame {
+class EditingFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form EditingFrame
      */
     @SuppressWarnings("unchecked")
-    public EditingFrame(ChemicalsService chemicalsService, Chemicals chemicals) {
+    EditingFrame(ChemicalsService chemicalsService, Chemicals chemicals) {
+        this.chemicals = chemicals;
         this.chemicalsService = chemicalsService;
         initComponents();
         cbRegType.setModel(new DefaultComboBoxModel(chemicalsService.getRegistrationType().toArray()));
@@ -64,7 +65,8 @@ public class EditingFrame extends javax.swing.JFrame {
         cbTonnageBand = new javax.swing.JComboBox();
         tfSubstanceInformationPage = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
 
         jLabel1.setText("Nazwa:");
 
@@ -195,7 +197,14 @@ public class EditingFrame extends javax.swing.JFrame {
     }
 
     private void bEditActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        Chemicals tmp = new Chemicals(tfName.getText(), tfEC.getText(), tfCAS.getText(), cbRegType.getSelectedObjects().toString(), cbSubType.getSelectedObjects().toString(), cbTonnageBand.getSelectedObjects().toString(), tfSubstanceInformationPage.getText());
+
+        if (tmp.equals(chemicals)) {
+            chemicalsService.addChemicals(tmp);
+            JOptionPane.showMessageDialog(null, "Pomyślnie wprowadzono zmiany");
+        } else {
+            JOptionPane.showMessageDialog(null, "Nie wprowadzono żadnych zmian");
+        }
     }
 
     private void tfCASKeyTyped(java.awt.event.KeyEvent evt) {
@@ -225,4 +234,5 @@ public class EditingFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private ChemicalsService chemicalsService;
+    private Chemicals chemicals;
 }

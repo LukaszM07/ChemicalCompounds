@@ -56,7 +56,8 @@ class AddingFrame extends javax.swing.JFrame {
         cbTonnageBand = new javax.swing.JComboBox();
         tfSubstanceInformationPage = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
 
         jLabel1.setText("Nazwa:");
 
@@ -187,8 +188,9 @@ class AddingFrame extends javax.swing.JFrame {
     }
 
     private void bAddActionPerformed(java.awt.event.ActionEvent evt) {
-        Chemicals chemicals = new Chemicals();
-        chemicalsService.addChemicals(chemicals);
+        Chemicals tmp = new Chemicals(tfName.getText(), tfEC.getText(), tfCAS.getText(), cbRegType.getSelectedObjects().toString(), cbSubType.getSelectedObjects().toString(), cbTonnageBand.getSelectedObjects().toString(), tfSubstanceInformationPage.getText());
+        chemicalsService.addChemicals(tmp);
+        JOptionPane.showMessageDialog(null, "Pomyślnie dodano nowy rekord");
     }
 
     private void tfCASKeyTyped(java.awt.event.KeyEvent evt) {
