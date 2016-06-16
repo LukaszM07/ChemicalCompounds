@@ -29,4 +29,12 @@ public interface ChemicalsRepository {
     List<Chemicals> getChemicalsByCasNumber(String casNumber);
 
     List<Chemicals> getChemicalsByFilter(String sql);
+
+    Chemicals getChemicalsById(int chemicalsId);
+
+    void addChemicals(Chemicals chemicals);
+
+    void editChemicals(Chemicals chemicals);
+
+    void deleteChemicals(int chemicalsId);
 }

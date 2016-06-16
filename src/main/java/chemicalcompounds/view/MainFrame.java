@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
@@ -72,6 +73,10 @@ public class MainFrame extends javax.swing.JFrame {
         miInstruction = new javax.swing.JMenuItem();
         miGantt = new javax.swing.JMenuItem();
         miExit = new javax.swing.JMenuItem();
+        mEdit = new javax.swing.JMenu();
+        miEdit = new javax.swing.JMenuItem();
+        miDelete = new javax.swing.JMenuItem();
+        miAdd = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -172,6 +177,20 @@ public class MainFrame extends javax.swing.JFrame {
         mMenu.add(miExit);
 
         jMenuBar1.add(mMenu);
+
+        mEdit.setText("Edycja");
+
+        miEdit.setText("Edytuj");
+        mEdit.add(miEdit);
+
+        miDelete.setText("Usuń");
+        mEdit.add(miDelete);
+
+        miAdd.setText("Dodaj");
+        miAdd.addActionListener(this::miAddActionPerformed);
+        mEdit.add(miAdd);
+
+        jMenuBar1.add(mEdit);
 
         setJMenuBar(jMenuBar1);
 
@@ -324,10 +343,14 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lL;
     private javax.swing.JLabel lR;
     private javax.swing.JMenu mMenu;
+    private javax.swing.JMenu mEdit;
     private javax.swing.JMenuItem miDocumentation;
     private javax.swing.JMenuItem miExit;
     private javax.swing.JMenuItem miGantt;
     private javax.swing.JMenuItem miInstruction;
+    private javax.swing.JMenuItem miAdd;
+    private javax.swing.JMenuItem miDelete;
+    private javax.swing.JMenuItem miEdit;
     private javax.swing.JTextField tfCasNum;
     private javax.swing.JFormattedTextField tfEC;
     private javax.swing.JTextField tfName;
@@ -450,6 +473,10 @@ public class MainFrame extends javax.swing.JFrame {
         cbRegType.setSelectedIndex(0);
         cbSubType.setSelectedIndex(0);
         cbTotalTonnageBand.setSelectedIndex(0);
+    }
+
+    private void miAddActionPerformed(ActionEvent actionEvent) {
+        EventQueue.invokeLater(() -> new AddingFrame(chemicalsService).setVisible(true));
     }
 
     // End of action perform method

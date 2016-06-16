@@ -38,6 +38,11 @@ public class ChemicalsServiceImpl implements ChemicalsService{
     }
 
     @Override
+    public Chemicals getChemicalsById(int chemicalsId) {
+        return chemicalsRepository.getChemicalsById(chemicalsId);
+    }
+
+    @Override
     public List<Chemicals> getChemicalsByEC(String ecNumber) {
         return chemicalsRepository.getChemicalsByEC(ecNumber);
     }
@@ -65,6 +70,21 @@ public class ChemicalsServiceImpl implements ChemicalsService{
     @Override
     public List<Chemicals> getChemicalsByFilter(String sql) {
         return chemicalsRepository.getChemicalsByFilter(sql);
+    }
+
+    @Override
+    public void addChemicals(Chemicals chemicals) {
+        chemicalsRepository.addChemicals(chemicals);
+    }
+
+    @Override
+    public void editChemicals(Chemicals chemicals) {
+        chemicalsRepository.editChemicals(chemicals);
+    }
+
+    @Override
+    public void deleteChemicals(int chemicalsId) {
+        chemicalsRepository.deleteChemicals(chemicalsId);
     }
 
 }

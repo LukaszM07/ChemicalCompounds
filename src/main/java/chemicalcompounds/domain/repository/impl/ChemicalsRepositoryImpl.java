@@ -52,6 +52,28 @@ public class ChemicalsRepositoryImpl implements ChemicalsRepository{
         return jdbcTemplate.query(sql, new ChemicalsRowMapper());
     }
 
+    @Override
+    public Chemicals getChemicalsById(int chemicalsId) {
+        return jdbcTemplate.queryForObject("SELECT * FROM Chemicals WHERE id = ?", new ChemicalsRowMapper(), chemicalsId);
+    }
+
+    @Override
+    public void addChemicals(Chemicals chemicals) {
+        String sql = "INTO public.chemicals(name, ec, cas_number, registration_type, submission_type, total_tonnage_band, substanceinformation_page) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, chemicals.getName(), chemicals.getEc(), chemicals.getCasNumber(), chemicals.getRegistrationType(), chemicals.getSubmissionType(), chemicals.getTotalTonnageBand(), chemicals.getSubstanceInformationPage());
+    }
+
+    @Override
+    public void editChemicals(Chemicals chemicals) {
+        String sql = "UPDATE public.chemicals SET name = ?, ec = ?, cas_number = ?, registration_type = ?, submission_type = ?, total_tonnage_band = ?, substanceinformation_page = ? WHERE id = ?";
+        jdbcTemplate.update(sql, chemicals.getName(), chemicals.getEc(), chemicals.getCasNumber(), chemicals.getRegistrationType(), chemicals.getSubmissionType(), chemicals.getTotalTonnageBand(), chemicals.getSubstanceInformationPage());
+    }
+
+    @Override
+    public void deleteChemicals(int chemicalsId) {
+        jdbcTemplate.update("DELETE FROM public.chemicals WHERE id = ?", chemicalsId);
+    }
+
     public int count() throws EmptyResultDataAccessException {
         return jdbcTemplate.queryForObject("SELECT count(*) FROM Chemicals", Integer.class);
     }

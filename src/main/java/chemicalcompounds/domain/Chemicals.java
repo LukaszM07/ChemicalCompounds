@@ -32,18 +32,7 @@ public class Chemicals {
 
         Chemicals chemicals = (Chemicals) o;
 
-        if (name != null ? !name.equals(chemicals.name) : chemicals.name != null) return false;
-        if (ec != null ? !ec.equals(chemicals.ec) : chemicals.ec != null) return false;
-        if (casNumber != null ? !casNumber.equals(chemicals.casNumber) : chemicals.casNumber != null) return false;
-        if (registrationType != null ? !registrationType.equals(chemicals.registrationType) : chemicals.registrationType != null)
-            return false;
-        if (submissionType != null ? !submissionType.equals(chemicals.submissionType) : chemicals.submissionType != null)
-            return false;
-        if (totalTonnageBand != null ? !totalTonnageBand.equals(chemicals.totalTonnageBand) : chemicals.totalTonnageBand != null)
-            return false;
-        if (factsheetURL != null ? !factsheetURL.equals(chemicals.factsheetURL) : chemicals.factsheetURL != null)
-            return false;
-        return substanceInformationPage != null ? substanceInformationPage.equals(chemicals.substanceInformationPage) : chemicals.substanceInformationPage == null;
+        return name != null ? name.equals(chemicals.name) : chemicals.name == null && (ec != null ? ec.equals(chemicals.ec) : chemicals.ec == null && (casNumber != null ? casNumber.equals(chemicals.casNumber) : chemicals.casNumber == null && (registrationType != null ? registrationType.equals(chemicals.registrationType) : chemicals.registrationType == null && (submissionType != null ? submissionType.equals(chemicals.submissionType) : chemicals.submissionType == null && (totalTonnageBand != null ? totalTonnageBand.equals(chemicals.totalTonnageBand) : chemicals.totalTonnageBand == null && (substanceInformationPage != null ? substanceInformationPage.equals(chemicals.substanceInformationPage) : chemicals.substanceInformationPage == null))))));
 
     }
 

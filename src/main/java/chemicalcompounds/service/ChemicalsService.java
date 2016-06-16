@@ -17,6 +17,8 @@ public interface ChemicalsService {
 
     List<String> getTotalTonnageBand();
 
+    Chemicals getChemicalsById(int chemicalsId);
+
     List<Chemicals> getChemicalsByEC(String ecNumber);
 
     List<Chemicals> getChemicalsByRegistrationType(String registrationType);
@@ -28,4 +30,10 @@ public interface ChemicalsService {
     List<Chemicals> getChemicalsByCasNumber(String casNumber);
 
     List<Chemicals> getChemicalsByFilter(String sql);
+
+    void addChemicals(Chemicals chemicals);
+
+    void editChemicals(Chemicals chemicals);
+
+    void deleteChemicals(int chemicalsId);
 }
