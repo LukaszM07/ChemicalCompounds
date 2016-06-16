@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
@@ -61,6 +62,16 @@ public class MainFrame extends javax.swing.JFrame {
         cbRegType = new javax.swing.JComboBox();
         cbTotalTonnageBand = new javax.swing.JComboBox();
         cbSubType = new javax.swing.JComboBox();
+        jSeparator1 = new javax.swing.JSeparator();
+        bFind = new javax.swing.JButton();
+        bReset = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JSeparator();
+        mMenu = new javax.swing.JMenu();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        miDocumentation = new javax.swing.JMenuItem();
+        miInstruction = new javax.swing.JMenuItem();
+        miGantt = new javax.swing.JMenuItem();
+        miExit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -137,35 +148,84 @@ public class MainFrame extends javax.swing.JFrame {
 
         cbTotalTonnageBand.addItemListener(this::cbTotalTonnageBandItemStateChanged);
 
+        bFind.setText("Szukaj");
+        bFind.addActionListener(this::bFindActionPerformed);
+
+        bReset.setText("Resetuj");
+        bReset.addActionListener(this::bResetActionPerformed);
+
+        mMenu.setText("Menu");
+
+        miDocumentation.setText("Dokumentacja");
+        mMenu.add(miDocumentation);
+
+        miInstruction.setText("Instrukcja");
+        miInstruction.addActionListener(this::miInstructionActionPerformed);
+        mMenu.add(miInstruction);
+
+        miGantt.setText("Gantt");
+        mMenu.add(miGantt);
+
+        miExit.setText("Wyjście");
+        miExit.addActionListener(this::miExitActionPerformed);
+
+        mMenu.add(miExit);
+
+        jMenuBar1.add(mMenu);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addGap(33, 33, 33)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel5)
-                                        .addComponent(jLabel6)
-                                        .addComponent(jLabel7)
-                                        .addComponent(jLabel8)
-                                        .addComponent(jLabel9)
-                                        .addComponent(jLabel10))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(tfName)
-                                        .addComponent(tfEC)
-                                        .addComponent(tfCasNum)
-                                        .addComponent(cbRegType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(cbTotalTonnageBand, javax.swing.GroupLayout.Alignment.TRAILING, 0, 137, Short.MAX_VALUE)
-                                        .addComponent(cbSubType, 0, 137, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 817, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(55, 55, 55)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addComponent(jLabel5)
+                                                        .addComponent(jLabel6)
+                                                        .addComponent(jLabel7))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(tfEC)
+                                                        .addComponent(tfName)
+                                                        .addComponent(tfCasNum))
+                                                .addGap(15, 15, 15))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGap(21, 21, 21)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                        .addComponent(jLabel8)
+                                                                        .addComponent(jLabel9)
+                                                                        .addComponent(jLabel10))
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(cbRegType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                        .addComponent(cbTotalTonnageBand, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                        .addComponent(cbSubType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                                .addGap(9, 9, 9))
+                                                        .addComponent(jSeparator2)
+                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(bReset, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(18, 18, 18)
+                                                                .addComponent(bFind, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(57, 57, 57)))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(jSeparator1)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jLabel4)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(cbWith, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addGap(145, 145, 145)
                                                 .addComponent(bPrev)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(lL)
@@ -175,8 +235,9 @@ public class MainFrame extends javax.swing.JFrame {
                                                 .addComponent(lR)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(bNext)
-                                                .addGap(256, 256, 256)
-                                                .addComponent(bExit)))
+                                                .addGap(218, 218, 218)
+                                                .addComponent(bExit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 876, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -199,7 +260,9 @@ public class MainFrame extends javax.swing.JFrame {
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                         .addComponent(jLabel7)
                                                         .addComponent(tfCasNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(25, 25, 25)
+                                                .addGap(20, 20, 20)
+                                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                         .addComponent(jLabel8)
                                                         .addComponent(cbRegType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -209,9 +272,16 @@ public class MainFrame extends javax.swing.JFrame {
                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                                         .addComponent(jLabel9)
                                                                         .addComponent(cbSubType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                .addGap(35, 35, 35)
-                                                                .addComponent(jLabel10))
-                                                        .addComponent(cbTotalTonnageBand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                                .addGap(52, 52, 52))
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                .addComponent(cbTotalTonnageBand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(jLabel10)))
+                                                .addGap(30, 30, 30)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(bFind)
+                                                        .addComponent(bReset))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(lR)
@@ -229,13 +299,15 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>
 
     // Variables declaration - do not modify
+    private javax.swing.JButton bExit;
+    private javax.swing.JButton bFind;
     private javax.swing.JButton bNext;
     private javax.swing.JButton bPrev;
+    private javax.swing.JButton bReset;
     private javax.swing.JComboBox cbRegType;
     private javax.swing.JComboBox cbSubType;
     private javax.swing.JComboBox cbTotalTonnageBand;
     private javax.swing.JComboBox cbWith;
-    private javax.swing.JButton bExit;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -244,10 +316,18 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel lL;
     private javax.swing.JLabel lR;
+    private javax.swing.JMenu mMenu;
+    private javax.swing.JMenuItem miDocumentation;
+    private javax.swing.JMenuItem miExit;
+    private javax.swing.JMenuItem miGantt;
+    private javax.swing.JMenuItem miInstruction;
     private javax.swing.JTextField tfCasNum;
     private javax.swing.JFormattedTextField tfEC;
     private javax.swing.JTextField tfName;
@@ -296,7 +376,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
-    private void tfCasNumKeyTyped(KeyEvent evt) {
+    private void tfCasNumKeyTyped(java.awt.event.KeyEvent evt) {
         if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
             fillTable(chemicalsService.getChemicalsByCasNumber(tfCasNum.getText()));
         } else {
@@ -312,31 +392,98 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void cbTotalTonnageBandItemStateChanged(ItemEvent itemEvent) {
-        fillTable(chemicalsService.getChemicalsByTotalTonnageBand(cbTotalTonnageBand.getSelectedItem().toString()));
+        if (cbTotalTonnageBand.getSelectedIndex() != 0)
+            fillTable(chemicalsService.getChemicalsByTotalTonnageBand(cbTotalTonnageBand.getSelectedItem().toString()));
     }
 
     private void cbSubTypeItemStateChanged(ItemEvent itemEvent) {
-        fillTable(chemicalsService.getChemicalsBySubmissionType(cbSubType.getSelectedItem().toString()));
+        if (cbSubType.getSelectedIndex() != 0)
+            fillTable(chemicalsService.getChemicalsBySubmissionType(cbSubType.getSelectedItem().toString()));
     }
 
     private void cbRegTypeItemStateChanged(ItemEvent itemEvent) {
-        fillTable(chemicalsService.getChemicalsByRegistrationType(cbRegType.getSelectedItem().toString()));
+        if (cbRegType.getSelectedIndex() != 0)
+            fillTable(chemicalsService.getChemicalsByRegistrationType(cbRegType.getSelectedItem().toString()));
+    }
+
+    private void miInstructionActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void miExitActionPerformed(java.awt.event.ActionEvent evt) {
+        System.exit(0);
+    }
+
+    private void bFindActionPerformed(ActionEvent evt) {
+
+        if (cbTotalTonnageBand.getSelectedIndex() != 0 || cbRegType.getSelectedIndex() != 0 || cbSubType.getSelectedIndex() != 0) {
+            StringBuilder sql = new StringBuilder("SELECT * FROM Chemicals WHERE ");
+
+            if (cbRegType.getSelectedIndex() != 0) {
+                sql.append("Chemicals.registration_type LIKE '");
+                sql.append(cbRegType.getSelectedItem());
+                sql.append("' AND ");
+            }
+
+            if (cbSubType.getSelectedIndex() != 0) {
+                sql.append("Chemicals.submission_type LIKE '");
+                sql.append(cbSubType.getSelectedItem());
+                sql.append("' AND ");
+            }
+
+            if (cbTotalTonnageBand.getSelectedIndex() != 0) {
+                sql.append("Chemicals.total_tonnage_band LIKE '");
+                sql.append(cbTotalTonnageBand.getSelectedItem());
+                sql.append("'");
+            } else {
+                sql.delete(sql.lastIndexOf(" AND"), sql.length());
+            }
+
+            fillTable(chemicalsService.getChemicalsByFilter(sql.toString()));
+        }
+
+
+    }
+
+    private void bResetActionPerformed(ActionEvent actionEvent) {
+        fill();
+        cbRegType.setSelectedIndex(0);
+        cbSubType.setSelectedIndex(0);
+        cbTotalTonnageBand.setSelectedIndex(0);
     }
 
     // End of action perform method
 
 
     // My methods declaration
+    @SuppressWarnings("unchecked")
     private void fillCBRegType() {
-        cbRegType.setModel(new javax.swing.DefaultComboBoxModel<>(chemicalsService.getRegistrationType().toArray()));
+        cbRegType.addItem("<Wybierz>");
+
+        for (String regType :
+                chemicalsService.getRegistrationType()) {
+            cbRegType.addItem(regType);
+        }
     }
 
+    @SuppressWarnings("unchecked")
     private void fillCBTotalTonnageBand() {
-        cbTotalTonnageBand.setModel(new javax.swing.DefaultComboBoxModel<>(chemicalsService.getTotalTonnageBand().toArray()));
+
+        cbTotalTonnageBand.addItem("<Wybierz>");
+        for (String tonnageBand :
+                chemicalsService.getTotalTonnageBand()) {
+            cbTotalTonnageBand.addItem(tonnageBand);
+        }
     }
 
+    @SuppressWarnings("unchecked")
     private void fillCBSubType() {
-        cbSubType.setModel(new javax.swing.DefaultComboBoxModel<>(chemicalsService.getSubmissionType().toArray()));
+
+        cbSubType.addItem("<Wybierz>");
+        for (String subType :
+                chemicalsService.getSubmissionType()) {
+            cbSubType.addItem(subType);
+        }
     }
 
     private void setLabelsLeftAndRight() {
@@ -399,7 +546,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     // My variables declaration
     private String[] columnNames = {
-            "id", "Name", "EC / List Number", "Cas Number", "Registration Type", "Submission Type", "Total tonnage Band"
+            "id", "Nazwa", "Numer EC", "Numer CAS", "Rodzaj rejestracji", "Typ złożenia", "Zakres obrotu"
     };
     private ApplicationContext context;
     private ChemicalsService chemicalsService;

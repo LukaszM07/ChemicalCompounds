@@ -62,4 +62,9 @@ public class ChemicalsServiceImpl implements ChemicalsService{
         return chemicalsRepository.getChemicalsByCasNumber(casNumber);
     }
 
+    @Override
+    public List<Chemicals> getChemicalsByFilter(String sql) {
+        return chemicalsRepository.getChemicalsByFilter(sql);
+    }
+
 }

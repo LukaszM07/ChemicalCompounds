@@ -27,4 +27,6 @@ public interface ChemicalsRepository {
     List<Chemicals> getChemicalsByTotalTonnageBand(String totalTonnageBand);
 
     List<Chemicals> getChemicalsByCasNumber(String casNumber);
+
+    List<Chemicals> getChemicalsByFilter(String sql);
 }

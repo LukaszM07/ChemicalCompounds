@@ -47,6 +47,11 @@ public class ChemicalsRepositoryImpl implements ChemicalsRepository{
         return jdbcTemplate.query("SELECT * FROM Chemicals WHERE Chemicals.cas_number LIKE ?", new ChemicalsRowMapper(), casNumber);
     }
 
+    @Override
+    public List<Chemicals> getChemicalsByFilter(String sql) {
+        return jdbcTemplate.query(sql, new ChemicalsRowMapper());
+    }
+
     public int count() throws EmptyResultDataAccessException {
         return jdbcTemplate.queryForObject("SELECT count(*) FROM Chemicals", Integer.class);
     }
