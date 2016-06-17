@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.net.URI;
 import java.text.ParseException;
 import java.util.List;
@@ -71,7 +72,6 @@ public class MainFrame extends javax.swing.JFrame {
         mMenu = new javax.swing.JMenu();
         jMenuBar1 = new javax.swing.JMenuBar();
         miDocumentation = new javax.swing.JMenuItem();
-        miInstruction = new javax.swing.JMenuItem();
         miExit = new javax.swing.JMenuItem();
         mEdit = new javax.swing.JMenu();
         miEdit = new javax.swing.JMenuItem();
@@ -115,8 +115,10 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel5.setText("Nazwa:");
 
         jLabel6.setText("Numer EC:");
+        jLabel6.setToolTipText("Numer EC – numer przypisany każdemu enzymowi według zasad klasyfikacji opracowanej w 1984 roku przez Komitet Nazewnictwa.");
 
         jLabel7.setText("Numer CAS:");
+        jLabel7.setToolTipText("Numer CAS – oznaczenie numeryczne przypisane substancji chemicznej przez amerykańską organizację Chemical Abstracts Service (CAS), pozwalające na identyfikację substancji.");
 
         jLabel8.setText("Rodzaj rejestracji:");
 
@@ -167,11 +169,8 @@ public class MainFrame extends javax.swing.JFrame {
         mMenu.setText("Menu");
 
         miDocumentation.setText("Dokumentacja");
+        miDocumentation.addActionListener(this::miDocumentationActionPerformed);
         mMenu.add(miDocumentation);
-
-        miInstruction.setText("Instrukcja");
-        miInstruction.addActionListener(this::miInstructionActionPerformed);
-        mMenu.add(miInstruction);
 
         miExit.setText("Wyjście");
         miExit.addActionListener(this::miExitActionPerformed);
@@ -350,7 +349,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu mEdit;
     private javax.swing.JMenuItem miDocumentation;
     private javax.swing.JMenuItem miExit;
-    private javax.swing.JMenuItem miInstruction;
     private javax.swing.JMenuItem miAdd;
     private javax.swing.JMenuItem miDelete;
     private javax.swing.JMenuItem miEdit;
@@ -432,8 +430,15 @@ public class MainFrame extends javax.swing.JFrame {
             fillTable(chemicalsService.getChemicalsByRegistrationType(cbRegType.getSelectedItem().toString()));
     }
 
-    private void miInstructionActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+    private void miDocumentationActionPerformed(ActionEvent actionEvent) {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                File myFile = new File("./src/main/resources/doc.pdf");
+                Desktop.getDesktop().open(myFile);
+            } catch (Exception ex) {
+                // no application registered for PDFs
+            }
+        }
     }
 
     private void miExitActionPerformed(java.awt.event.ActionEvent evt) {
@@ -492,21 +497,19 @@ public class MainFrame extends javax.swing.JFrame {
         fill();
     }
 
+    @SuppressWarnings("all")
     private void jTable1MouseClicked(MouseEvent evt) {
         if (evt.getButton() == java.awt.event.MouseEvent.BUTTON3) {
             try {
                 String url = chemicalsService.getSubstanceInformationPage(Integer.valueOf(jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0).toString()));
 
                 if (Desktop.isDesktopSupported()) {
-                    // Windows
                     Desktop.getDesktop().browse(new URI(url));
                 } else {
-                    // Ubuntu
                     Runtime runtime = Runtime.getRuntime();
                     runtime.exec("/usr/bin/firefox -new-window " + url);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
             }
         }
     }
