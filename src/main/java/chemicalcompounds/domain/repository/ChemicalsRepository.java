@@ -37,4 +37,6 @@ public interface ChemicalsRepository {
     void editChemicals(Chemicals chemicals);
 
     void deleteChemicals(int chemicalsId);
+
+    String getSubstanceInformationPage(int chemicalsId);
 }

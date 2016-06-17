@@ -87,4 +87,9 @@ public class ChemicalsServiceImpl implements ChemicalsService{
         chemicalsRepository.deleteChemicals(chemicalsId);
     }
 
+    @Override
+    public String getSubstanceInformationPage(int chemicalsId) {
+        return chemicalsRepository.getSubstanceInformationPage(chemicalsId);
+    }
+
 }

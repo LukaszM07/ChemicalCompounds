@@ -200,7 +200,7 @@ class EditingFrame extends javax.swing.JFrame {
         Chemicals tmp = new Chemicals(tfName.getText(), tfEC.getText(), tfCAS.getText(), cbRegType.getSelectedObjects().toString(), cbSubType.getSelectedObjects().toString(), cbTonnageBand.getSelectedObjects().toString(), tfSubstanceInformationPage.getText());
 
         if (tmp.equals(chemicals)) {
-            chemicalsService.addChemicals(tmp);
+            chemicalsService.editChemicals(tmp);
             JOptionPane.showMessageDialog(null, "Pomyślnie wprowadzono zmiany");
         } else {
             JOptionPane.showMessageDialog(null, "Nie wprowadzono żadnych zmian");

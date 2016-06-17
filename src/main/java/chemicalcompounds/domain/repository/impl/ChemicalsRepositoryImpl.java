@@ -74,6 +74,11 @@ public class ChemicalsRepositoryImpl implements ChemicalsRepository{
         jdbcTemplate.update("DELETE FROM public.chemicals WHERE id = ?", chemicalsId);
     }
 
+    @Override
+    public String getSubstanceInformationPage(int chemicalsId) {
+        return jdbcTemplate.queryForObject("SELECT substanceinformation_page FROM public.chemicals WHERE id = ?", String.class, chemicalsId);
+    }
+
     public int count() throws EmptyResultDataAccessException {
         return jdbcTemplate.queryForObject("SELECT count(*) FROM Chemicals", Integer.class);
     }

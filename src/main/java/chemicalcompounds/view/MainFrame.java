@@ -12,6 +12,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.net.URI;
 import java.text.ParseException;
 import java.util.List;
 
@@ -30,8 +32,6 @@ public class MainFrame extends javax.swing.JFrame {
         fillCBSubType();
         fillCBTotalTonnageBand();
     }
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -85,6 +85,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         },
                 columnNames));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         lR.setText("0");
@@ -490,6 +495,25 @@ public class MainFrame extends javax.swing.JFrame {
         chemicalsService.deleteChemicals(Integer.valueOf(jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0).toString()));
         JOptionPane.showMessageDialog(null, "Pomyślnie usunięto rekord");
         fill();
+    }
+
+    private void jTable1MouseClicked(MouseEvent evt) {
+        if (evt.getButton() == java.awt.event.MouseEvent.BUTTON3) {
+            try {
+                String url = chemicalsService.getSubstanceInformationPage(Integer.valueOf(jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0).toString()));
+
+                if (Desktop.isDesktopSupported()) {
+                    // Windows
+                    Desktop.getDesktop().browse(new URI(url));
+                } else {
+                    // Ubuntu
+                    Runtime runtime = Runtime.getRuntime();
+                    runtime.exec("/usr/bin/firefox -new-window " + url);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     // End of action perform method
