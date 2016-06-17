@@ -72,7 +72,6 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         miDocumentation = new javax.swing.JMenuItem();
         miInstruction = new javax.swing.JMenuItem();
-        miGantt = new javax.swing.JMenuItem();
         miExit = new javax.swing.JMenuItem();
         mEdit = new javax.swing.JMenu();
         miEdit = new javax.swing.JMenuItem();
@@ -173,9 +172,6 @@ public class MainFrame extends javax.swing.JFrame {
         miInstruction.setText("Instrukcja");
         miInstruction.addActionListener(this::miInstructionActionPerformed);
         mMenu.add(miInstruction);
-
-        miGantt.setText("Gantt");
-        mMenu.add(miGantt);
 
         miExit.setText("Wyjście");
         miExit.addActionListener(this::miExitActionPerformed);
@@ -354,7 +350,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu mEdit;
     private javax.swing.JMenuItem miDocumentation;
     private javax.swing.JMenuItem miExit;
-    private javax.swing.JMenuItem miGantt;
     private javax.swing.JMenuItem miInstruction;
     private javax.swing.JMenuItem miAdd;
     private javax.swing.JMenuItem miDelete;
