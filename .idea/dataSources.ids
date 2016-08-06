@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="PostgreSQL - postgres@localhost" uuid="5a2408f1-2133-4477-a88c-411daf25ba51">
+    <database-info product="PostgreSQL" version="9.5.3" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.4 JDBC4 (build 1201)">
+      <identifier-quote-string>&quot;</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact"/>
+    <database-model serializer="dbm" rdbms="POSTGRES" format-version="2.5">
+      <database id="1" name="postgres"/>
+      <schema id="2" parent="1" name="public">
+        <object-id>2200</object-id>
+        <comment>standard public schema</comment>
+        <introspection-state-number>733</introspection-state-number>
+        <introspection-timestamp>2016-06-12.12:32:47.720</introspection-timestamp>
+      </schema>
+      <sequence id="3" parent="2" name="chemicals_id_seq">
+        <object-id>17959</object-id>
+        <state-number>732</state-number>
+      </sequence>
+      <table id="4" parent="2" name="chemicals">
+        <object-id>17961</object-id>
+        <state-number>732</state-number>
+      </table>
+      <column id="5" parent="4" name="name">
+        <state-number>733</state-number>
+        <data-type>text</data-type>
+      </column>
+      <column id="6" parent="4" name="ec">
+        <state-number>732</state-number>
+        <data-type>varchar(45)</data-type>
+      </column>
+      <column id="7" parent="4" name="cas_number">
+        <state-number>732</state-number>
+        <data-type>varchar(45)</data-type>
+      </column>
+      <column id="8" parent="4" name="registration_type">
+        <state-number>732</state-number>
+        <data-type>varchar(45)</data-type>
+      </column>
+      <column id="9" parent="4" name="submission_type">
+        <state-number>732</state-number>
+        <data-type>varchar(45)</data-type>
+      </column>
+      <column id="10" parent="4" name="total_tonnage_band">
+        <state-number>732</state-number>
+        <data-type>varchar(45)</data-type>
+      </column>
+      <column id="11" parent="4" name="factsheet_url">
+        <state-number>732</state-number>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="12" parent="4" name="substanceinformation_page">
+        <state-number>732</state-number>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="13" parent="4" name="id">
+        <state-number>732</state-number>
+        <mandatory>1</mandatory>
+        <data-type>integer</data-type>
+        <default-expression>nextval(&apos;chemicals_id_seq&apos;::regclass)</default-expression>
+      </column>
+      <index id="14" parent="4" name="chemicals_pkey">
+        <object-id>17968</object-id>
+        <columns>id</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="15" parent="4" name="chemicals_pkey">
+        <columns>id</columns>
+        <underlying-index>chemicals_pkey</underlying-index>
+        <primary>1</primary>
+      </key>
+    </database-model>
+  </data-source>
+</component>
