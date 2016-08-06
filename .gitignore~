@@ -1,3 +1,5 @@
 /target/
-/.idea.sh/
+/.idea/
 *.gitignore
+/src/main/resources/doc.pdf
+/src/main/resources/gantt.gan
